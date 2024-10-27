@@ -13,4 +13,7 @@ module.exports = {
   "POST /api/v1/en/property/list": "property/list-property",
   "POST /api/v1/en/property/list/:id": "property/list-property",
 
+  // Images
+  "POST /api/v1/en/image/upload": "image/upload-image",
+  "POST /api/v1/en/image/get": "image/get-image",
 };

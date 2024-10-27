@@ -83,11 +83,7 @@ module.exports = {
       opts.skip = opts.start; // * opts.limit
 
       const query = {
-        where: {
-          FK_user_id: {
-            [Sequelize.Op.in]: [1]
-          },
-        },
+
         skip: opts.skip,
         order: [[opts.orderBy, opts.orderDir]],
         ...(opts.limit > -1 ? {limit: opts.limit} : {}),

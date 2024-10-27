@@ -22,7 +22,6 @@ module.exports = {
     },
   },
   fn: async function (inputs, exits) {
-    console.log(inputs);
 
     let { id } = inputs;
     let transaction;

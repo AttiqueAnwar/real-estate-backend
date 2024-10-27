@@ -18,9 +18,37 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false
         },
-        FK_user_id: {
+        property_price: {
             type: Sequelize.INTEGER,
             allowNull: false
+        },
+        property_address: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        property_baths: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        property_beds: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        property_area: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        property_owner: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        property_image: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        property_description: {
+            type: Sequelize.STRING,
+            allowNull: true
         },
 
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -32,7 +60,7 @@ module.exports = {
         //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
         //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
         //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-        Property.belongsTo(User, { foreignKey: 'FK_user_id' });
+        // Property.belongsTo(User, { foreignKey: 'FK_user_id' });
     },
     defaultScope: function() {
         //  ╔═╗╔═╗╔═╗╔═╗╔═╗

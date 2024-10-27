@@ -8,10 +8,39 @@ module.exports = {
       type: "string",
       required: true,
     },
-    FK_user_id: {
+    property_price: {
       type: "number",
       required: true,
     },
+    property_address: {
+      type: "string",
+      required: true,
+    },
+    property_baths: {
+      type: "number",
+      required: true,
+    },
+    property_beds: {
+      type: "number",
+      required: true,
+    },
+    property_area: {
+      type: "string",
+      required: true,
+    },
+    property_owner: {
+      type: "string",
+      required: true,
+    },
+    property_image: {
+      type: "string",
+      required: true,
+    },
+    property_description: {
+      type: "string",
+      required: true,
+    },
+
   },
   exits: {
     exception: {
@@ -30,15 +59,28 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     let { req } = this;
-    console.log(req.user);
-    console.log(inputs);
-    let { property_name, FK_user_id } = inputs;
+    let { property_name,
+      property_price,
+      property_address,
+      property_baths,
+      property_beds,
+      property_area,
+      property_owner,
+      property_image,
+      property_description } = inputs;
 
 
     try {
       let property = await Property.create({
         property_name,
-        FK_user_id,
+        property_price,
+        property_address,
+        property_baths,
+        property_beds,
+        property_area,
+        property_owner,
+        property_image,
+        property_description
       });
 
       return exits.success({
