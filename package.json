@@ -1,0 +1,67 @@
+{
+  "name": "realestate",
+  "private": true,
+  "version": "1.0.0",
+  "description": "OBD api",
+  "keywords": [],
+  "dependencies": {
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/lodash": "^3.10.3",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "async": "2.0.1",
+    "aws-sdk": "^2.1062.0",
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "grunt": "1.0.1",
+    "html-pdf": "^2.2.0",
+    "json2csv": "^4.2.1",
+    "kue": "^0.11.6",
+    "lodash": "4.17.10",
+    "md5": "^2.2.1",
+    "moment": "^2.22.2",
+    "mssql": "^4.1.0",
+    "mysql2": "^1.7.0",
+    "nodemon": "^2.0.15",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "redis": "^4.5.1",
+    "robust-point-in-polygon": "^1.0.3",
+    "sails": "^1.0.2",
+    "sails-hook-email": "^0.12.1",
+    "sails-hook-grunt": "^3.0.2",
+    "sails-hook-organics": "^0.14.5",
+    "sails-hook-orm": "^2.0.0-16",
+    "sails-hook-sequelize": "^1.2.2",
+    "sails-hook-sockets": "^1.4.0",
+    "sequelize": "^6.25.3",
+    "shortid": "^2.2.12",
+    "skipper": "^0.9.1",
+    "skipper-better-s3": "^2.3.0",
+    "tedious": "5",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@sailshq/eslint": "^4.19.3",
+    "concurrently": "^7.0.0"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production && node app.js",
+    "start:dev": "nodemon app.js",
+    "start:win:dev": "concurrently \"redis-server\" \"set NODE_ENV=development && nodemon app.js\"",
+    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
+    "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "",
+  "engines": {
+    "node": ">=9.0"
+  }
+}
