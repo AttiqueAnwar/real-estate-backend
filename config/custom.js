@@ -11,7 +11,7 @@
 module.exports.custom = {
   // https:// not hitting the route
   baseUrl :'https://localhost:1337',
-  appUrl: 'https://localhost:3000',
+  appUrl: 'http://127.0.0.1:5173',
   /***************************************************************************
   *                                                                          *
   * Any other custom config this Sails app should use during development.    *
