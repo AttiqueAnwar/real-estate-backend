@@ -1,4 +1,4 @@
-// controller for editing a property
+const { uploadtos3 } = require('../image/uploadtos3');
 
 module.exports = {
   friendlyName: "Edit property",
@@ -30,7 +30,7 @@ module.exports = {
       required: false,
     },
     property_area: {
-      type: "string",
+      type: "number",
       required: false,
     },
     property_owner: {
@@ -38,7 +38,7 @@ module.exports = {
       required: false,
     },
     property_image: {
-      type: "string",
+      type: "ref",
       required: false,
     },
     property_description: {
@@ -87,8 +87,37 @@ module.exports = {
       if (inputs.property_beds) property.property_beds = inputs.property_beds;
       if (inputs.property_area) property.property_area = inputs.property_area;
       if (inputs.property_owner) property.property_owner = inputs.property_owner;
-      if (inputs.property_image) property.property_image = inputs.property_image;
       if (inputs.property_description) property.property_description = inputs.property_description;
+
+      // Handle the property_image field (either URL or Base64)
+      if (inputs.property_image) {
+        // If it's an array, handle each image separately
+        if (Array.isArray(inputs.property_image)) {
+          const imageUrls = await Promise.all(inputs.property_image.map(async (image, index) => {
+        if (image.startsWith('data:image')) {
+          // Convert base64 image to URL
+          const base64Data = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+          return await uploadtos3(base64Data, `${Date.now()}-${inputs.property_name}-${index}.jpg`, 'image/jpeg');
+        } else {
+          // Keep URL as is
+          return image;
+        }
+          }));
+
+          // Save the image URLs as a comma-separated string
+          property.property_image = imageUrls.join(','); // Join the URLs with commas
+        } else {
+          // If it's a single image (not an array), check if it's Base64 or URL
+          if (inputs.property_image.startsWith('data:image')) {
+        // Convert base64 image to URL
+        const base64Data = Buffer.from(inputs.property_image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+        property.property_image = await uploadtos3(base64Data, `${Date.now()}-${inputs.property_name}-0.jpg`, 'image/jpeg');
+          } else {
+        // If it's already a URL, store it as a single string
+        property.property_image = inputs.property_image;
+          }
+        }
+      }
 
       // Save changes within the transaction
       await property.save({ transaction });
@@ -101,6 +130,8 @@ module.exports = {
       });
     } catch (error) {
       // Rollback if there's an error
+      console.log(error);
+
       if (transaction) await transaction.rollback();
       return exits.exception({
         message: "An error occurred while updating the property",
@@ -109,3 +140,5 @@ module.exports = {
     }
   },
 };
+
+

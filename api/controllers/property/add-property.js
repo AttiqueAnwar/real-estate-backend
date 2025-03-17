@@ -25,7 +25,7 @@ module.exports = {
       required: true,
     },
     property_area: {
-      type: "string",
+      type: "number",
       required: true,
     },
     property_owner: {
@@ -33,14 +33,13 @@ module.exports = {
       required: true,
     },
     property_image: {
-      type: "string",
+      type: "ref", // Assuming this will be an array of base64 strings
       required: true,
     },
     property_description: {
       type: "string",
       required: true,
     },
-
   },
   exits: {
     exception: {
@@ -59,10 +58,12 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     try {
-        // Assuming `property_image` is a base64 string (remove data URI prefix for AWS S3)
-        const base64Data = Buffer.from(inputs.property_image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-        const imageUrl = await uploadtos3(base64Data, `${Date.now()}-${inputs.property_name}.jpg`, 'image/jpeg');
-
+        // Assuming `property_image` is an array of base64 strings
+        const imageUrls = await Promise.all(inputs.property_image.map(async (image, index) => {
+            const base64Data = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+            const imageUrl = await uploadtos3(base64Data, `${Date.now()}-${Date.now()}-${inputs.property_name}-${index}.jpg`, 'image/jpeg');
+            return imageUrl;
+        }));
         // Save image URL in the database
         let property = await Property.create({
             property_name: inputs.property_name,
@@ -72,7 +73,7 @@ module.exports = {
             property_beds: inputs.property_beds,
             property_area: inputs.property_area,
             property_owner: inputs.property_owner,
-            property_image: imageUrl,  // Store URL instead of data URL
+            property_image: imageUrls.join(','),  // Store URLs as a comma-separated string
             property_description: inputs.property_description,
         });
 
